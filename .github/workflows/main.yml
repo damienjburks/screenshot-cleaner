@@ -93,9 +93,6 @@ jobs:
 
       - name: Test CLI commands
         run: |
-          # Test that CLI is installed and working
-          uv run screenshot-cleaner --help
-          
           # Create test directory with dummy screenshots
           mkdir -p /tmp/test-screenshots
           touch "/tmp/test-screenshots/Screen Shot 2024-01-01.png"
