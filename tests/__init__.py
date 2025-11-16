@@ -1,1 +1,1 @@
-"""Test suite for screenshots_cleaner."""
+"""Test suite for screenshot_cleaner."""

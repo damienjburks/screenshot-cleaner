@@ -1,7 +1,7 @@
 # Implementation Plan
 
 - [x] 1. Set up project structure and core interfaces
-  - Initialize project using `uv init screenshots-cleaner`
+  - Initialize project using `uv init screenshot-cleaner`
   - Set Python version with `uv python pin 3.12`
   - Create directory structure: `core/`, `utils/`, `tests/`
   - Add dependencies: `uv add fire rich`
@@ -105,21 +105,21 @@
 
 - [x] 7. Configure packaging and entry point
   - [x] 7.1 Update `pyproject.toml` with script entry point
-    - Add `[project.scripts]` section with `screenshots-cleaner = "screenshots_cleaner.cli:main"`
+    - Add `[project.scripts]` section with `screenshot-cleaner = "screenshot_cleaner.cli:main"`
     - Ensure all dependencies are properly declared
     - Add project metadata (name, version, description, authors)
     - _Requirements: 7.1, 7.2, 7.3_
   
   - [x] 7.2 Test local execution with uv
-    - Run `uv run screenshots-cleaner preview` to test local execution
-    - Run `uv run screenshots-cleaner clean --dry-run` to verify dry-run mode
+    - Run `uv run screenshot-cleaner preview` to test local execution
+    - Run `uv run screenshot-cleaner clean --dry-run` to verify dry-run mode
     - Verify all command-line arguments work correctly
     - _Requirements: 7.1_
   
   - [x] 7.3 Test global installation with uv
     - Run `uv tool install .` to install globally
-    - Verify `screenshots-cleaner` command works from any directory
-    - Test `uv tool uninstall screenshots-cleaner` for cleanup
+    - Verify `screenshot-cleaner` command works from any directory
+    - Test `uv tool uninstall screenshot-cleaner` for cleanup
     - _Requirements: 7.2_
 
 - [x] 8. Create documentation
@@ -144,7 +144,7 @@
   - Create `tests/conftest.py` with shared fixtures
   - Configure pytest in `pyproject.toml`
   - Run full test suite with `uv run pytest`
-  - Generate coverage report with `uv run pytest --cov=screenshots_cleaner --cov-report=html`
+  - Generate coverage report with `uv run pytest --cov=screenshot_cleaner --cov-report=html`
   - Verify minimum 90% code coverage
   - Fix any failing tests
   - _Requirements: All_
@@ -158,3 +158,26 @@
   - Test --log-file output
   - Verify performance with large directories
   - _Requirements: 9.1, 9.2_
+
+
+- [ ] 11. Set up automated version management
+  - [ ] 11.1 Install and configure bump-my-version
+    - Add bump-my-version as dev dependency: `uv add --dev bump-my-version`
+    - Create `.bumpversion.toml` configuration file
+    - Configure version file locations (pyproject.toml, __init__.py)
+    - Set up git commit and tag automation
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
+  
+  - [ ] 11.2 Update documentation for version management
+    - Add version bumping instructions to README.md
+    - Document semantic versioning strategy
+    - Add examples for patch, minor, and major releases
+    - Document integration with release workflow
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
+  
+  - [ ] 11.3 Test version bumping workflow
+    - Test patch version bump
+    - Test minor version bump
+    - Verify version updates in all configured files
+    - Verify git commit and tag creation
+    - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_

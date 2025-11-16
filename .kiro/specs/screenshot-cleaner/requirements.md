@@ -106,3 +106,16 @@ A Python CLI tool for macOS that automatically deletes screenshots older than a 
 
 1. WHEN the Target Directory contains fewer than ten thousand files, THE Screenshot Cleaner SHALL complete execution within two seconds
 2. THE Screenshot Cleaner SHALL process files efficiently without unnecessary filesystem operations
+
+
+### Requirement 10
+
+**User Story:** As a developer maintaining the project, I want automated version management, so that I can easily release new versions with consistent version numbering across all project files.
+
+#### Acceptance Criteria
+
+1. THE Screenshot Cleaner SHALL use semantic versioning (MAJOR.MINOR.PATCH) for version numbers
+2. THE Screenshot Cleaner SHALL provide automated version bumping via bump-my-version tool
+3. WHEN a version is bumped, THE Screenshot Cleaner SHALL update version numbers in pyproject.toml and __init__.py
+4. THE Screenshot Cleaner SHALL support bumping major, minor, and patch version components
+5. THE Screenshot Cleaner SHALL create git tags for version releases when configured

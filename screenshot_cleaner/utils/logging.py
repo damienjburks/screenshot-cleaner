@@ -20,7 +20,7 @@ def setup_logger(log_file: Optional[Path] = None) -> logging.Logger:
     Returns:
         logging.Logger: Configured logger instance.
     """
-    logger = logging.getLogger("screenshots_cleaner")
+    logger = logging.getLogger("screenshot_cleaner")
     logger.setLevel(logging.INFO)
     
     # Clear any existing handlers
@@ -49,7 +49,7 @@ def log_info(message: str) -> None:
     Args:
         message: The message to log.
     """
-    logger = logging.getLogger("screenshots_cleaner")
+    logger = logging.getLogger("screenshot_cleaner")
     logger.info(message)
 
 
@@ -59,7 +59,7 @@ def log_error(message: str) -> None:
     Args:
         message: The error message to log.
     """
-    logger = logging.getLogger("screenshots_cleaner")
+    logger = logging.getLogger("screenshot_cleaner")
     logger.error(message)
 
 
@@ -71,7 +71,7 @@ def log_file_operation(file_path: Path, operation: str, success: bool) -> None:
         operation: Description of the operation (e.g., "delete", "would delete").
         success: Whether the operation was successful.
     """
-    logger = logging.getLogger("screenshots_cleaner")
+    logger = logging.getLogger("screenshot_cleaner")
     
     if success:
         logger.info(f"{operation}: {file_path}")

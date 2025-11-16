@@ -1,34 +1,50 @@
 [project]
-name = "screenshots-cleaner"
+name = "screenshot-cleaner"
 version = "0.1.0"
 description = "A Python CLI tool for automatically cleaning up old macOS screenshots"
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
-    { name = "Screenshot Cleaner Contributors" }
+    { name = "Screenshot Cleaner Contributors", email = "contributors@example.com" }
+]
+maintainers = [
+    { name = "Screenshot Cleaner Contributors", email = "contributors@example.com" }
 ]
 license = { text = "MIT" }
-keywords = ["macos", "screenshots", "cleanup", "cli", "automation"]
+keywords = ["macos", "screenshots", "cleanup", "cli", "automation", "desktop", "file-management"]
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
     "Operating System :: MacOS",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Filesystems",
     "Topic :: Utilities",
+    "Typing :: Typed",
 ]
 dependencies = [
     "fire>=0.7.1",
+    "pytest-cov>=7.0.0",
     "rich>=14.2.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/yourusername/screenshot-cleaner"
+Documentation = "https://github.com/yourusername/screenshot-cleaner#readme"
+Repository = "https://github.com/yourusername/screenshot-cleaner"
+Issues = "https://github.com/yourusername/screenshot-cleaner/issues"
+Changelog = "https://github.com/yourusername/screenshot-cleaner/blob/main/CHANGELOG.md"
+
 [project.scripts]
-screenshots-cleaner = "screenshots_cleaner.cli:main"
+screenshot-cleaner = "screenshot_cleaner.cli:main"
 
 [dependency-groups]
 dev = [
+    "bump-my-version>=1.2.4",
     "pytest>=9.0.1",
     "pytest-cov>=7.0.0",
     "pytest-mock>=3.15.1",
@@ -49,7 +65,7 @@ python_functions = ["test_*"]
 addopts = "-v --strict-markers"
 
 [tool.coverage.run]
-source = ["screenshots_cleaner"]
+source = ["screenshot_cleaner"]
 omit = ["tests/*", "**/__pycache__/*"]
 
 [tool.coverage.report]

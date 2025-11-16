@@ -6,7 +6,7 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock
 import pytest
 
-from screenshots_cleaner.core import scanner
+from screenshot_cleaner.core import scanner
 
 
 class TestGetDefaultScreenshotDir:

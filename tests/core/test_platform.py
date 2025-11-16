@@ -2,7 +2,7 @@
 
 import pytest
 from unittest.mock import patch
-from screenshots_cleaner.core import platform as platform_module
+from screenshot_cleaner.core import platform as platform_module
 
 
 class TestIsMacos:

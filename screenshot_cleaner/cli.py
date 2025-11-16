@@ -8,10 +8,10 @@ import fire
 from rich.console import Console
 from rich.table import Table
 
-from screenshots_cleaner.core.platform import validate_macos
-from screenshots_cleaner.core.scanner import get_default_screenshot_dir, find_expired_files
-from screenshots_cleaner.core.cleanup import delete_files
-from screenshots_cleaner.utils.logging import setup_logger
+from screenshot_cleaner.core.platform import validate_macos
+from screenshot_cleaner.core.scanner import get_default_screenshot_dir, find_expired_files
+from screenshot_cleaner.core.cleanup import delete_files
+from screenshot_cleaner.utils.logging import setup_logger
 
 
 console = Console()
@@ -73,7 +73,7 @@ class ScreenshotCleaner:
         table.add_column("File", style="cyan")
         table.add_column("Age (days)", style="yellow")
         
-        from screenshots_cleaner.core.scanner import get_file_age_days
+        from screenshot_cleaner.core.scanner import get_file_age_days
         for file_path in expired_files:
             age = get_file_age_days(file_path)
             table.add_row(str(file_path), str(age))

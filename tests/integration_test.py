@@ -9,9 +9,9 @@ import time
 from pathlib import Path
 import pytest
 
-from screenshots_cleaner.core.scanner import find_expired_files
-from screenshots_cleaner.core.cleanup import delete_files
-from screenshots_cleaner.utils.logging import setup_logger
+from screenshot_cleaner.core.scanner import find_expired_files
+from screenshot_cleaner.core.cleanup import delete_files
+from screenshot_cleaner.utils.logging import setup_logger
 
 
 class TestIntegrationScenarios:

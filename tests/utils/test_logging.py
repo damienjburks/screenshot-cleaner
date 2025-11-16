@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock
 import pytest
 
-from screenshots_cleaner.utils import logging as log_module
+from screenshot_cleaner.utils import logging as log_module
 
 
 class TestSetupLogger:
@@ -15,7 +15,7 @@ class TestSetupLogger:
         """Test that logger is created with stdout handler."""
         logger = log_module.setup_logger()
         
-        assert logger.name == "screenshots_cleaner"
+        assert logger.name == "screenshot_cleaner"
         assert logger.level == logging.INFO
         assert len(logger.handlers) >= 1
         

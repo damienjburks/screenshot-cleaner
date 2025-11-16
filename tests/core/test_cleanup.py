@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 import pytest
 
-from screenshots_cleaner.core import cleanup
+from screenshot_cleaner.core import cleanup
 
 
 class TestDeleteFile:

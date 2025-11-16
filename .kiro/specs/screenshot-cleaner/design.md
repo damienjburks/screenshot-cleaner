@@ -4,7 +4,7 @@
 
 The Screenshot Cleaner is a Python CLI application built using the Python Fire framework for automatic command-line interface generation and Rich for enhanced console output. The tool follows a modular architecture with clear separation between OS utilities, file discovery, deletion logic, logging, and CLI interface layers.
 
-The application will be packaged as a standard Python project managed by uv, with a single entry point command `screenshots-cleaner` that provides two subcommands: `preview` and `clean`. The tool includes comprehensive unit tests suitable for open-source distribution and documentation for configuring macOS to run the cleaner automatically at startup.
+The application will be packaged as a standard Python project managed by uv, with a single entry point command `screenshot-cleaner` that provides two subcommands: `preview` and `clean`. The tool includes comprehensive unit tests suitable for open-source distribution and documentation for configuring macOS to run the cleaner automatically at startup.
 
 ## Architecture
 
@@ -37,7 +37,7 @@ The application will be packaged as a standard Python project managed by uv, wit
 ### Module Structure
 
 ```
-screenshots_cleaner/
+screenshot_cleaner/
 ├── __init__.py
 ├── cli.py              # Fire CLI entry point
 ├── core/
@@ -359,10 +359,10 @@ tests/
 ### UV Installation Testing
 
 **Validation Steps:**
-1. Test `uv run screenshots-cleaner preview` from project directory
+1. Test `uv run screenshot-cleaner preview` from project directory
 2. Test `uv tool install .` for global installation
-3. Verify global command `screenshots-cleaner` works after installation
-4. Test uninstall with `uv tool uninstall screenshots-cleaner`
+3. Verify global command `screenshot-cleaner` works after installation
+4. Test uninstall with `uv tool uninstall screenshot-cleaner`
 
 ## Performance Considerations
 
@@ -425,7 +425,7 @@ To run the Screenshot Cleaner automatically at startup or on a schedule, macOS p
     
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/USERNAME/.local/bin/screenshots-cleaner</string>
+        <string>/Users/USERNAME/.local/bin/screenshot-cleaner</string>
         <string>clean</string>
         <string>--force</string>
         <string>--days</string>
@@ -478,12 +478,12 @@ To run the Screenshot Cleaner automatically at startup or on a schedule, macOS p
 
 1. Install the tool globally:
    ```bash
-   uv tool install screenshots-cleaner
+   uv tool install screenshot-cleaner
    ```
 
 2. Find the installation path:
    ```bash
-   which screenshots-cleaner
+   which screenshot-cleaner
    ```
 
 3. Create the plist file at `~/Library/LaunchAgents/com.screenshotcleaner.plist`
@@ -526,3 +526,91 @@ def setup_autorun(
 ```
 
 This would be implemented as an additional method in the `ScreenshotCleaner` class.
+
+
+## Version Management
+
+### Automated Version Control with bump-my-version
+
+The project uses `bump-my-version` (formerly `bump2version`) for automated semantic versioning. This ensures consistent version numbers across all project files and simplifies the release process.
+
+**Version Format:**
+- Semantic versioning: `MAJOR.MINOR.PATCH`
+- Example: `0.1.0` → `0.2.0` (minor bump)
+
+**Configuration File:**
+`.bumpversion.toml` contains:
+- Current version
+- Files to update (pyproject.toml, __init__.py)
+- Commit and tag settings
+- Version part definitions
+
+**Workflow:**
+
+1. **Patch Release** (bug fixes):
+   ```bash
+   bump-my-version bump patch
+   # 0.1.0 → 0.1.1
+   ```
+
+2. **Minor Release** (new features, backward compatible):
+   ```bash
+   bump-my-version bump minor
+   # 0.1.0 → 0.2.0
+   ```
+
+3. **Major Release** (breaking changes):
+   ```bash
+   bump-my-version bump major
+   # 0.1.0 → 1.0.0
+   ```
+
+**Automated Updates:**
+When bumping version, the tool automatically:
+- Updates version in `pyproject.toml`
+- Updates version in `screenshot_cleaner/__init__.py`
+- Creates a git commit with the version change
+- Creates a git tag (e.g., `v0.2.0`)
+
+**Configuration Example:**
+
+```toml
+[tool.bumpversion]
+current_version = "0.1.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = ""
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "screenshot_cleaner/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+```
+
+**Integration with CI/CD:**
+The version management integrates with GitHub Actions or other CI/CD pipelines:
+- Automated releases on version tags
+- Changelog generation
+- PyPI package publishing
+
+**Best Practices:**
+1. Always commit changes before bumping version
+2. Use conventional commits for clear changelog generation
+3. Test thoroughly before bumping major versions
+4. Document breaking changes in CHANGELOG.md

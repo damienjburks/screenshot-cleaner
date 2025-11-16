@@ -6,14 +6,14 @@ from pathlib import Path
 from unittest.mock import patch, MagicMock
 import pytest
 
-from screenshots_cleaner.cli import ScreenshotCleaner
+from screenshot_cleaner.cli import ScreenshotCleaner
 
 
 class TestPreviewCommand:
     """Tests for preview command."""
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
     def test_preview_with_no_expired_files(self, mock_find, mock_validate, capsys):
         """Test preview when no expired files found."""
         mock_find.return_value = []
@@ -24,9 +24,9 @@ class TestPreviewCommand:
         captured = capsys.readouterr()
         assert "No expired screenshots found" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
-    @patch('screenshots_cleaner.core.scanner.get_file_age_days')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.core.scanner.get_file_age_days')
     def test_preview_displays_expired_files(self, mock_age, mock_find, mock_validate, tmp_path, capsys):
         """Test preview displays expired files in table."""
         test_file = tmp_path / "Screen Shot 2024.png"
@@ -43,7 +43,7 @@ class TestPreviewCommand:
         assert "Shot 2024.png" in captured.out
         assert "1 file(s) would be deleted" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_preview_with_invalid_directory(self, mock_validate):
         """Test preview with nonexistent directory."""
         cli = ScreenshotCleaner()
@@ -53,7 +53,7 @@ class TestPreviewCommand:
         
         assert exc_info.value.code == 2
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_preview_with_invalid_days(self, mock_validate):
         """Test preview with invalid days parameter."""
         cli = ScreenshotCleaner()
@@ -63,8 +63,8 @@ class TestPreviewCommand:
         
         assert exc_info.value.code == 3
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
     def test_preview_with_custom_days(self, mock_find, mock_validate, tmp_path):
         """Test preview with custom days threshold."""
         mock_find.return_value = []
@@ -80,8 +80,8 @@ class TestPreviewCommand:
 class TestCleanCommand:
     """Tests for clean command."""
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
     def test_clean_with_no_expired_files(self, mock_find, mock_validate, capsys):
         """Test clean when no expired files found."""
         mock_find.return_value = []
@@ -92,9 +92,9 @@ class TestCleanCommand:
         captured = capsys.readouterr()
         assert "No expired screenshots found" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
-    @patch('screenshots_cleaner.cli.delete_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.delete_files')
     def test_clean_with_force_flag(self, mock_delete, mock_find, mock_validate, tmp_path, capsys):
         """Test clean with force flag skips confirmation."""
         test_file = tmp_path / "Screen Shot 2024.png"
@@ -112,9 +112,9 @@ class TestCleanCommand:
         captured = capsys.readouterr()
         assert "Successfully deleted 1 file(s)" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
-    @patch('screenshots_cleaner.cli.delete_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.delete_files')
     def test_clean_with_dry_run(self, mock_delete, mock_find, mock_validate, tmp_path, capsys):
         """Test clean with dry-run flag."""
         test_file = tmp_path / "Screen Shot 2024.png"
@@ -134,8 +134,8 @@ class TestCleanCommand:
         assert "DRY RUN MODE" in captured.out
         assert "Would delete 1 file(s)" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
     @patch('builtins.input')
     def test_clean_with_confirmation_declined(self, mock_input, mock_find, mock_validate, tmp_path, capsys):
         """Test clean when user declines confirmation."""
@@ -151,9 +151,9 @@ class TestCleanCommand:
         captured = capsys.readouterr()
         assert "Operation cancelled" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
-    @patch('screenshots_cleaner.cli.delete_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.delete_files')
     @patch('builtins.input')
     def test_clean_with_confirmation_accepted(self, mock_input, mock_delete, mock_find, mock_validate, tmp_path, capsys):
         """Test clean when user accepts confirmation."""
@@ -173,9 +173,9 @@ class TestCleanCommand:
         captured = capsys.readouterr()
         assert "Successfully deleted 1 file(s)" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
-    @patch('screenshots_cleaner.cli.find_expired_files')
-    @patch('screenshots_cleaner.cli.delete_files')
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.cli.delete_files')
     def test_clean_reports_failures(self, mock_delete, mock_find, mock_validate, tmp_path, capsys):
         """Test clean reports deletion failures."""
         test_file = tmp_path / "Screen Shot 2024.png"
@@ -191,7 +191,7 @@ class TestCleanCommand:
         assert "Successfully deleted 1 file(s)" in captured.out
         assert "Failed to delete 2 file(s)" in captured.out
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_clean_with_invalid_directory(self, mock_validate):
         """Test clean with nonexistent directory."""
         cli = ScreenshotCleaner()
@@ -201,7 +201,7 @@ class TestCleanCommand:
         
         assert exc_info.value.code == 2
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_clean_with_invalid_days(self, mock_validate):
         """Test clean with invalid days parameter."""
         cli = ScreenshotCleaner()
@@ -215,7 +215,7 @@ class TestCleanCommand:
 class TestMacOSValidation:
     """Tests for macOS validation in CLI."""
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_preview_validates_macos(self, mock_validate):
         """Test that preview validates macOS."""
         mock_validate.side_effect = SystemExit(1)
@@ -227,7 +227,7 @@ class TestMacOSValidation:
         
         mock_validate.assert_called_once()
     
-    @patch('screenshots_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.validate_macos')
     def test_clean_validates_macos(self, mock_validate):
         """Test that clean validates macOS."""
         mock_validate.side_effect = SystemExit(1)
