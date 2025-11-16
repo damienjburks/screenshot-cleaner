@@ -1,9 +1,10 @@
 # Screenshot Cleaner
 
 [![PyPI version](https://badge.fury.io/py/screenshot-cleaner.svg)](https://badge.fury.io/py/screenshot-cleaner)
-[![CI/CD](https://github.com/yourusername/screenshot-cleaner/actions/workflows/main.yml/badge.svg)](https://github.com/yourusername/screenshot-cleaner/actions/workflows/main.yml)
+[![CI/CD](https://github.com/damienjburks/screenshot-cleaner/actions/workflows/main.yml/badge.svg)](https://github.com/damienjburks/screenshot-cleaner/actions/workflows/main.yml)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Built with Kiro](https://img.shields.io/badge/Built%20with-Kiro-5B4FE9)](https://kiro.ai)
 
 A Python CLI tool for automatically cleaning up old macOS screenshots. Keep your Desktop tidy by automatically deleting screenshots older than a specified number of days.
 
