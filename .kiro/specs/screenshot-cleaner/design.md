@@ -614,3 +614,422 @@ The version management integrates with GitHub Actions or other CI/CD pipelines:
 2. Use conventional commits for clear changelog generation
 3. Test thoroughly before bumping major versions
 4. Document breaking changes in CHANGELOG.md
+
+
+## CI/CD Pipeline
+
+### Overview
+
+The project uses GitHub Actions for continuous integration and continuous deployment. The pipeline is defined in `.github/workflows/main.yml` and provides automated testing, building, and publishing.
+
+### Pipeline Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Trigger Events                            │
+│  • Push to main/develop                                      │
+│  • Pull requests                                             │
+│  • Version tags (v*)                                         │
+│  • Manual workflow dispatch                                  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    Test Stage                                │
+│  • Run on macOS (required for this project)                  │
+│  • Test Python 3.12 and 3.13                                 │
+│  • Unit tests with pytest                                    │
+│  • Coverage verification (≥90%)                              │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Integration Test Stage                          │
+│  • End-to-end CLI testing                                    │
+│  • Real file operations                                      │
+│  • Command verification                                      │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                Build Stage (Conditional)                     │
+│  • Only on tags or manual trigger                            │
+│  • Build wheel and source distribution                       │
+│  • Upload artifacts                                          │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                    ┌─────────┴─────────┐
+                    ▼                   ▼
+┌──────────────────────────┐  ┌──────────────────────────┐
+│   Publish to PyPI        │  │  Publish to Test PyPI    │
+│   (on tags only)         │  │  (manual only)           │
+│   • Trusted publishing   │  │  • For testing           │
+│   • No tokens needed     │  │                          │
+└──────────┬───────────────┘  └──────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                GitHub Release Stage                          │
+│  • Extract changelog                                         │
+│  • Create release                                            │
+│  • Attach distribution files                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Job Definitions
+
+#### 1. Test Job
+
+**Purpose:** Verify code quality and functionality
+
+**Configuration:**
+- **Platform:** macOS-latest (required for screenshot functionality)
+- **Python versions:** 3.12, 3.13 (matrix strategy)
+- **Runs on:** All pushes, PRs, and tags
+
+**Steps:**
+1. Checkout code
+2. Install uv package manager
+3. Set up Python environment
+4. Install project dependencies
+5. Run linting (placeholder for future)
+6. Execute pytest test suite
+7. Generate coverage report
+8. Verify coverage ≥90%
+9. Upload coverage to Codecov
+
+**Exit Criteria:**
+- All tests must pass
+- Coverage must be ≥90%
+- No critical linting errors
+
+#### 2. Integration Test Job
+
+**Purpose:** Validate end-to-end functionality
+
+**Configuration:**
+- **Platform:** macOS-latest
+- **Depends on:** test job
+- **Python version:** 3.12
+
+**Steps:**
+1. Run integration test suite
+2. Test CLI commands with real files
+3. Verify preview command
+4. Verify clean command with dry-run
+5. Test error handling
+
+**Exit Criteria:**
+- All integration tests pass
+- CLI commands execute successfully
+
+#### 3. Build Job
+
+**Purpose:** Create distribution packages
+
+**Configuration:**
+- **Platform:** ubuntu-latest
+- **Depends on:** test, integration-test
+- **Runs only when:** Tag pushed OR manual trigger
+
+**Steps:**
+1. Build wheel distribution
+2. Build source distribution
+3. Upload artifacts for publishing
+
+**Outputs:**
+- `screenshots_cleaner-*.whl` (wheel)
+- `screenshots-cleaner-*.tar.gz` (source)
+
+#### 4. Publish to PyPI Job
+
+**Purpose:** Publish release to Python Package Index
+
+**Configuration:**
+- **Platform:** ubuntu-latest
+- **Depends on:** build
+- **Runs only when:** Version tag pushed (v*)
+- **Environment:** pypi
+- **Permissions:** id-token: write (for trusted publishing)
+
+**Steps:**
+1. Download build artifacts
+2. Publish to PyPI using trusted publishing
+
+**Security:**
+- Uses OIDC trusted publishing (no API tokens)
+- Requires PyPI trusted publisher configuration
+- Protected by GitHub environment
+
+#### 5. Publish to Test PyPI Job
+
+**Purpose:** Test releases before production
+
+**Configuration:**
+- **Platform:** ubuntu-latest
+- **Depends on:** build
+- **Runs only when:** Manual workflow dispatch with test flag
+- **Environment:** test-pypi
+
+**Steps:**
+1. Download build artifacts
+2. Publish to Test PyPI
+
+**Use Case:**
+- Testing package installation
+- Verifying metadata
+- Dry-run before production
+
+#### 6. GitHub Release Job
+
+**Purpose:** Create GitHub release with artifacts
+
+**Configuration:**
+- **Platform:** ubuntu-latest
+- **Depends on:** publish-to-pypi
+- **Runs only when:** Version tag pushed
+- **Permissions:** contents: write
+
+**Steps:**
+1. Extract version from tag
+2. Extract changelog section for version
+3. Create GitHub release
+4. Attach distribution files
+
+### Workflow Triggers
+
+#### Automatic Triggers
+
+**Push to main/develop:**
+```yaml
+on:
+  push:
+    branches: [ main, develop ]
+```
+- Runs: test, integration-test
+- Skips: build, publish
+
+**Version tag:**
+```yaml
+on:
+  push:
+    tags:
+      - 'v*'
+```
+- Runs: ALL jobs
+- Publishes to PyPI
+- Creates GitHub release
+
+**Pull request:**
+```yaml
+on:
+  pull_request:
+    branches: [ main, develop ]
+```
+- Runs: test, integration-test
+- Provides PR status checks
+
+#### Manual Trigger
+
+**Workflow dispatch:**
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      test_pypi:
+        type: boolean
+        default: false
+```
+- Can be triggered from GitHub UI
+- Optional Test PyPI publishing
+- Useful for testing releases
+
+### Security Considerations
+
+#### Trusted Publishing
+
+The pipeline uses PyPI's Trusted Publishers feature:
+
+**Benefits:**
+- No API tokens to manage
+- No secrets in repository
+- OIDC-based authentication
+- Automatic token rotation
+- Audit trail
+
+**Configuration Required:**
+1. PyPI account with 2FA enabled
+2. Trusted publisher configured on PyPI
+3. GitHub environment named `pypi`
+4. Workflow name: `main.yml`
+
+#### Environment Protection
+
+GitHub environments provide:
+- Required reviewers (optional)
+- Wait timers (optional)
+- Deployment branch restrictions
+- Audit logs
+
+### Dependency Management
+
+**uv Package Manager:**
+- Fast dependency resolution
+- Reproducible builds
+- Lock file support
+- Virtual environment management
+
+**Caching:**
+- uv cache enabled in workflow
+- Speeds up subsequent runs
+- Reduces network usage
+
+### Monitoring and Observability
+
+**Status Badges:**
+- CI/CD status in README
+- PyPI version badge
+- Python version badge
+- License badge
+
+**Logs:**
+- Detailed job logs in GitHub Actions
+- Coverage reports in Codecov
+- Build artifacts available for download
+
+**Notifications:**
+- GitHub commit status checks
+- PR check status
+- Email notifications on failure
+
+### Failure Handling
+
+**Test Failures:**
+- Pipeline stops immediately
+- No build or publish occurs
+- PR cannot be merged (if required)
+
+**Build Failures:**
+- Publish jobs are skipped
+- Artifacts not created
+- Tag remains but no release
+
+**Publish Failures:**
+- GitHub release not created
+- Manual intervention required
+- Can retry by re-pushing tag
+
+### Best Practices
+
+1. **Always run tests locally** before pushing
+2. **Use Test PyPI** for testing releases
+3. **Review workflow logs** after each run
+4. **Keep dependencies updated** (Dependabot)
+5. **Monitor coverage trends**
+6. **Update CHANGELOG** before releases
+7. **Use semantic versioning** for tags
+
+### Future Enhancements
+
+Potential pipeline improvements:
+
+1. **Code Quality:**
+   - Add ruff linting
+   - Add mypy type checking
+   - Add bandit security scanning
+
+2. **Testing:**
+   - Add performance benchmarks
+   - Add mutation testing
+   - Add property-based testing
+
+3. **Deployment:**
+   - Add Docker image building
+   - Add Homebrew formula updates
+   - Add documentation deployment
+
+4. **Notifications:**
+   - Slack notifications
+   - Discord webhooks
+   - Email summaries
+
+## PyPI Package Configuration
+
+### Package Metadata
+
+The package is configured in `pyproject.toml` with comprehensive metadata:
+
+**Basic Information:**
+- Name: `screenshots-cleaner`
+- Description: CLI tool for cleaning up old macOS screenshots
+- License: MIT
+- Python requirement: ≥3.12
+
+**Project URLs:**
+- Homepage: GitHub repository
+- Documentation: README
+- Repository: GitHub
+- Issues: GitHub Issues
+- Changelog: CHANGELOG.md
+
+**Classifiers:**
+- Development Status: Beta
+- Environment: Console
+- Intended Audience: Developers, End Users
+- Operating System: macOS
+- Programming Language: Python 3.12+
+- Topic: System/Filesystems, Utilities
+
+**Keywords:**
+- macos, screenshots, cleanup, cli, automation, desktop, file-management
+
+### Build System
+
+**Build backend:** hatchling
+- Modern Python build backend
+- Fast and reliable
+- Supports all standard features
+
+**Package structure:**
+```
+screenshots-cleaner/
+├── pyproject.toml          # Package configuration
+├── README.md               # Package description
+├── CHANGELOG.md            # Version history
+├── LICENSE                 # MIT license
+└── screenshots_cleaner/    # Package code
+    ├── __init__.py         # Version info
+    ├── cli.py              # Entry point
+    ├── core/               # Core modules
+    └── utils/              # Utilities
+```
+
+### Installation Methods
+
+**From PyPI:**
+```bash
+pip install screenshots-cleaner
+uv tool install screenshots-cleaner
+```
+
+**From source:**
+```bash
+git clone <repo>
+cd screenshot-cleaner
+uv sync
+uv run screenshots-cleaner
+```
+
+**Development install:**
+```bash
+uv sync
+uv run pytest
+```
+
+### Version Management Integration
+
+The package version is managed by bump-my-version:
+- Single source of truth in `pyproject.toml`
+- Automatically updated in `__init__.py`
+- Git tags created automatically
+- Triggers CI/CD pipeline on tag push

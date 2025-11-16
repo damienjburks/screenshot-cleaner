@@ -119,3 +119,32 @@ A Python CLI tool for macOS that automatically deletes screenshots older than a 
 3. WHEN a version is bumped, THE Screenshot Cleaner SHALL update version numbers in pyproject.toml and __init__.py
 4. THE Screenshot Cleaner SHALL support bumping major, minor, and patch version components
 5. THE Screenshot Cleaner SHALL create git tags for version releases when configured
+
+
+### Requirement 11
+
+**User Story:** As a developer maintaining the project, I want automated CI/CD pipelines, so that code quality is verified and releases are published automatically when I create version tags.
+
+#### Acceptance Criteria
+
+1. THE Screenshot Cleaner SHALL run automated tests on every push and pull request
+2. THE Screenshot Cleaner SHALL run tests on multiple Python versions (3.12 and 3.13)
+3. THE Screenshot Cleaner SHALL verify test coverage meets minimum threshold (90%) before allowing deployment
+4. WHEN a version tag is pushed, THE Screenshot Cleaner SHALL automatically build and publish to PyPI
+5. THE Screenshot Cleaner SHALL use PyPI Trusted Publishers for secure, token-free publishing
+6. THE Screenshot Cleaner SHALL create GitHub releases automatically when publishing to PyPI
+7. THE Screenshot Cleaner SHALL run integration tests to verify end-to-end functionality
+8. THE Screenshot Cleaner SHALL support manual workflow dispatch for testing releases on Test PyPI
+
+### Requirement 12
+
+**User Story:** As a project maintainer, I want the project published to PyPI, so that users can easily install it using pip or uv.
+
+#### Acceptance Criteria
+
+1. THE Screenshot Cleaner SHALL be published to the Python Package Index (PyPI)
+2. THE Screenshot Cleaner SHALL be installable via pip install screenshots-cleaner
+3. THE Screenshot Cleaner SHALL be installable via uv tool install screenshots-cleaner
+4. THE Screenshot Cleaner SHALL include proper package metadata (description, keywords, classifiers)
+5. THE Screenshot Cleaner SHALL include project URLs (homepage, repository, issues, changelog)
+6. THE Screenshot Cleaner SHALL follow Python packaging best practices

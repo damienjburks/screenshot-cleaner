@@ -98,10 +98,10 @@ jobs:
           touch "/tmp/test-screenshots/Screen Shot 2024-01-01.png"
           
           # Test preview command
-          uv run screenshot-cleaner preview --path=/tmp/test-screenshots --days=0
+          uv run screenshot-cleaner preview --path=/tmp/test-screenshots --days=1
           
           # Test clean with dry-run
-          uv run screenshot-cleaner clean --path=/tmp/test-screenshots --days=0 --dry-run∂
+          uv run screenshot-cleaner clean --path=/tmp/test-screenshots --days=1 --dry-run
           
           # Cleanup
           rm -rf /tmp/test-screenshots
