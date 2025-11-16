@@ -94,17 +94,17 @@ jobs:
       - name: Test CLI commands
         run: |
           # Test that CLI is installed and working
-          uv run screenshot-cleaner--help || echo "Help command test"
+          uv run screenshot-cleaner --help || echo "Help command test"
           
           # Create test directory with dummy screenshots
           mkdir -p /tmp/test-screenshots
           touch "/tmp/test-screenshots/Screen Shot 2024-01-01.png"
           
           # Test preview command
-          uv run screenshot-cleanerpreview --path=/tmp/test-screenshots --days=0
+          uv run screenshot-cleaner preview --path=/tmp/test-screenshots --days=0
           
           # Test clean with dry-run
-          uv run screenshot-cleanerclean --path=/tmp/test-screenshots --days=0 --dry-run
+          uv run screenshot-cleaner clean --path=/tmp/test-screenshots --days=0 --dry-run∂
           
           # Cleanup
           rm -rf /tmp/test-screenshots
