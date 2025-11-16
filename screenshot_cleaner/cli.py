@@ -30,15 +30,15 @@ class ScreenshotCleaner:
         
         Args:
             path: Screenshot directory (default: system screenshot location)
-            days: Age threshold in days (default: 7)
+            days: Age threshold in days (default: 7, use 0 for all screenshots)
             log_file: Optional log file path
         """
         # Validate macOS
         validate_macos()
         
         # Validate days parameter
-        if days <= 0:
-            console.print("[red]Error: days must be a positive integer[/red]")
+        if days < 0:
+            console.print("[red]Error: days must be a non-negative integer[/red]")
             sys.exit(3)
         
         # Setup logger
@@ -58,7 +58,10 @@ class ScreenshotCleaner:
             target_dir = get_default_screenshot_dir()
         
         logger.info(f"Scanning directory: {target_dir}")
-        logger.info(f"Looking for screenshots older than {days} days")
+        if days == 0:
+            logger.info("Looking for all screenshots (no age filter)")
+        else:
+            logger.info(f"Looking for screenshots older than {days} days")
         
         # Find expired files
         expired_files = find_expired_files(target_dir, days=days)
@@ -69,7 +72,8 @@ class ScreenshotCleaner:
             return
         
         # Display results in a table
-        table = Table(title=f"Screenshots older than {days} days")
+        title = "All screenshots" if days == 0 else f"Screenshots older than {days} days"
+        table = Table(title=title)
         table.add_column("File", style="cyan")
         table.add_column("Age (days)", style="yellow")
         
@@ -94,7 +98,7 @@ class ScreenshotCleaner:
         
         Args:
             path: Screenshot directory (default: system screenshot location)
-            days: Age threshold in days (default: 7)
+            days: Age threshold in days (default: 7, use 0 for all screenshots)
             force: Skip confirmation prompt
             dry_run: Preview only, don't delete
             log_file: Optional log file path
@@ -103,8 +107,8 @@ class ScreenshotCleaner:
         validate_macos()
         
         # Validate days parameter
-        if days <= 0:
-            console.print("[red]Error: days must be a positive integer[/red]")
+        if days < 0:
+            console.print("[red]Error: days must be a non-negative integer[/red]")
             sys.exit(3)
         
         # Setup logger
@@ -124,7 +128,10 @@ class ScreenshotCleaner:
             target_dir = get_default_screenshot_dir()
         
         logger.info(f"Scanning directory: {target_dir}")
-        logger.info(f"Looking for screenshots older than {days} days")
+        if days == 0:
+            logger.info("Looking for all screenshots (no age filter)")
+        else:
+            logger.info(f"Looking for screenshots older than {days} days")
         
         # Find expired files
         expired_files = find_expired_files(target_dir, days=days)

@@ -56,6 +56,9 @@ screenshot-cleaner preview
 # Preview with custom age threshold
 screenshot-cleaner preview --days=14
 
+# Preview ALL screenshots (no age filter)
+screenshot-cleaner preview --days=0
+
 # Preview in a specific directory
 screenshot-cleaner preview --path=/path/to/screenshots
 
@@ -79,6 +82,9 @@ screenshot-cleaner clean --dry-run
 
 # Custom age threshold
 screenshot-cleaner clean --days=30
+
+# Delete ALL screenshots (use with extreme caution!)
+screenshot-cleaner clean --days=0 --force
 
 # Custom directory
 screenshot-cleaner clean --path=/path/to/screenshots

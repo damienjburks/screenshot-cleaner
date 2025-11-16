@@ -59,7 +59,7 @@ class TestPreviewCommand:
         cli = ScreenshotCleaner()
         
         with pytest.raises(SystemExit) as exc_info:
-            cli.preview(days=0)
+            cli.preview(days=-1)
         
         assert exc_info.value.code == 3
     
@@ -75,6 +75,24 @@ class TestPreviewCommand:
         # Verify find_expired_files was called with correct days
         mock_find.assert_called_once()
         assert mock_find.call_args[1]['days'] == 14
+    
+    @patch('screenshot_cleaner.cli.validate_macos')
+    @patch('screenshot_cleaner.cli.find_expired_files')
+    @patch('screenshot_cleaner.core.scanner.get_file_age_days')
+    def test_preview_with_zero_days(self, mock_age, mock_find, mock_validate, tmp_path, capsys):
+        """Test preview with days=0 to show all screenshots."""
+        test_file = tmp_path / "Screen Shot 2024.png"
+        test_file.write_text("test")
+        
+        mock_find.return_value = [test_file]
+        mock_age.return_value = 0
+        
+        cli = ScreenshotCleaner()
+        cli.preview(path=str(tmp_path), days=0)
+        
+        captured = capsys.readouterr()
+        assert "All screenshots" in captured.out or "Shot 2024.png" in captured.out
+        assert "1 file(s) would be deleted" in captured.out
 
 
 class TestCleanCommand:
@@ -207,7 +225,7 @@ class TestCleanCommand:
         cli = ScreenshotCleaner()
         
         with pytest.raises(SystemExit) as exc_info:
-            cli.clean(days=-5, force=True)
+            cli.clean(days=-1, force=True)
         
         assert exc_info.value.code == 3
 
