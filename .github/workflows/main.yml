@@ -162,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: test-pypi
-      url: https://test.pypi.org/p/screenshots-cleaner
+      url: https://test.pypi.org/p/screenshot-cleaner
     permissions:
       id-token: write
 
