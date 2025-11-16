@@ -94,7 +94,7 @@ jobs:
       - name: Test CLI commands
         run: |
           # Test that CLI is installed and working
-          uv run screenshot-cleaner --help || echo "Help command test"
+          uv run screenshot-cleaner --help
           
           # Create test directory with dummy screenshots
           mkdir -p /tmp/test-screenshots
