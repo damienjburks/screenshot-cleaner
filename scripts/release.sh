@@ -72,12 +72,7 @@ uv run bump-my-version bump $VERSION_TYPE
 NEW_VERSION=$(uv run bump-my-version show current_version)
 echo -e "${GREEN}✓ Version bumped to ${NEW_VERSION}${NC}"
 
-# Push changes
-echo -e "${YELLOW}Pushing changes and tags...${NC}"
-git push
-git push --tags
-
-echo -e "${GREEN}✓ Release complete!${NC}"
+echo -e "${GREEN}✓ Release preparation complete!${NC}"
 echo -e "${YELLOW}Next steps:${NC}"
 echo "1. Create a GitHub release from tag v${NEW_VERSION}"
 echo "2. Copy CHANGELOG entry to release notes"
