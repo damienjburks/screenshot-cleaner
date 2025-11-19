@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2024-11-19
+
+### Added
+- macOS LaunchAgent plist file for automatic startup on reboot
+- CODEOWNERS file for repository governance
+- Comprehensive GitHub Actions CI/CD pipeline
+- Updated README with enhanced badges and documentation
+- Automated dependency management via Dependabot
+
+### Changed
+- Promoted to stable v1.0.0 release
+- Improved screenshot detection to include all screenshot types
+- Enhanced README documentation with clearer setup instructions
+- Updated project badges with correct links and styling
+
+### Fixed
+- PyPI publishing path in GitHub Actions workflow
+- GitHub Actions workflow configuration issues
+- Dependency version conflicts in uv.lock file
+
+### Infrastructure
+- Updated GitHub Actions dependencies to latest versions:
+  - astral-sh/setup-uv from v4 to v7
+  - actions/checkout from v4 to v5
+  - actions/upload-artifact from v4 to v5
+  - actions/download-artifact from v4 to v6
+  - codecov/codecov-action from v4 to v5
+- Improved CI/CD pipeline reliability and security
+- Enhanced automated testing and coverage reporting
+
 ## [0.1.1] - 2024-11-16
 
 ### Fixed
@@ -57,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling for permission issues
 - No subdirectory traversal (safety feature)
 
-[Unreleased]: https://github.com/damienjburks/screenshot-cleaner/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/damienjburks/screenshot-cleaner/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/damienjburks/screenshot-cleaner/compare/v0.1.1...v1.0.0
 [0.1.1]: https://github.com/damienjburks/screenshot-cleaner/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/damienjburks/screenshot-cleaner/releases/tag/v0.1.0

@@ -322,9 +322,9 @@ All 13 task groups completed:
 - [docs/RELEASE_CHECKLIST.md](../../../docs/RELEASE_CHECKLIST.md)
 
 ### Links
-- Repository: https://github.com/yourusername/screenshot-cleaner
+- Repository: https://github.com/damienjburks/screenshot-cleaner
 - PyPI: https://pypi.org/project/screenshots-cleaner/
-- Issues: https://github.com/yourusername/screenshot-cleaner/issues
+- Issues: https://github.com/damienjburks/screenshot-cleaner/issues
 
 ---
 
