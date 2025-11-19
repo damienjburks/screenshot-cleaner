@@ -141,27 +141,23 @@ You can configure macOS to run Screenshot Cleaner automatically using LaunchAgen
 <dict>
     <key>Label</key>
     <string>com.screenshotcleaner</string>
-    
+
     <key>ProgramArguments</key>
     <array>
         <string>/Users/YOUR_USERNAME/.local/bin/screenshot-cleaner</string>
         <string>clean</string>
         <string>--force</string>
         <string>--days</string>
-        <string>7</string>
+        <string>0</string>
     </array>
-    
-    <key>StartCalendarInterval</key>
-    <dict>
-        <key>Hour</key>
-        <integer>9</integer>
-        <key>Minute</key>
-        <integer>0</integer>
-    </dict>
-    
+
+    <!-- Run at every reboot -->
+    <key>RunAtLoad</key>
+    <true/>
+
     <key>StandardOutPath</key>
     <string>/tmp/screenshot-cleaner.log</string>
-    
+
     <key>StandardErrorPath</key>
     <string>/tmp/screenshot-cleaner.error.log</string>
 </dict>
