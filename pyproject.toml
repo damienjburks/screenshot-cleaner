@@ -5,15 +5,15 @@ description = "A Python CLI tool for automatically cleaning up old macOS screens
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
-    { name = "Screenshot Cleaner Contributors", email = "contributors@example.com" }
+    { name = "Damien Burks", email = "damien@damienjburks.com" }
 ]
 maintainers = [
-    { name = "Screenshot Cleaner Contributors", email = "contributors@example.com" }
+    { name = "Damien Burks", email = "damien@damienjburks.com" }
 ]
 license = { text = "MIT" }
 keywords = ["macos", "screenshots", "cleanup", "cli", "automation", "desktop", "file-management"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
