@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.1] - 2025-11-23
 
-- 
+### Changed
+- Updated development status from Beta to Production/Stable in project metadata
+- Adding contributor/owner information
 
 ## [1.1.0] - 2025-11-19
 
@@ -101,7 +103,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Error handling for permission issues
 - No subdirectory traversal (safety feature)
 
-[Unreleased]: https://github.com/damienjburks/screenshot-cleaner/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/damienjburks/screenshot-cleaner/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/damienjburks/screenshot-cleaner/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/damienjburks/screenshot-cleaner/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/damienjburks/screenshot-cleaner/compare/v0.1.1...v1.0.0
 [0.1.1]: https://github.com/damienjburks/screenshot-cleaner/compare/v0.1.0...v0.1.1
