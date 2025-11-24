@@ -1,6 +1,6 @@
 [project]
 name = "screenshot-cleaner"
-version = "1.1.0"
+version = "1.1.1"
 description = "A Python CLI tool for automatically cleaning up old macOS screenshots"
 readme = "README.md"
 requires-python = ">=3.12"
